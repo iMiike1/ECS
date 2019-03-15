@@ -14,7 +14,7 @@ public class RotateAround : MonoBehaviour {
     private void Start()
     {
        
-        speed = 0.01f/((Cube.transform.position.magnitude - transform.position.magnitude)*(Time.deltaTime*0.1f));
+        speed = 0.01f/((Cube.transform.position.magnitude - transform.position.magnitude)*(Time.deltaTime/**0.1f*/));
         
 
 
@@ -25,6 +25,6 @@ public class RotateAround : MonoBehaviour {
 
     private void Update()
     {
-        transform.RotateAround(Cube.transform.position, Vector3.up, speed /** Time.deltaTime*/);
+        transform.RotateAround(Cube.transform.position, Vector3.up, speed);
     }
 }
