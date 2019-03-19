@@ -1,18 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-
+using Unity.Transforms;
 using UnityEngine;
 using Unity.Entities;
+using Unity.Mathematics;
+using Unity.Collections;
 
 public class GameManager : MonoBehaviour {
 
-    Unity.Entities.EntityManager manager;
+    EntityManager manager;
     public GameObject GameObjectEntity;
     public int amount;
+    public int starAmount;
 	// Use this for initialization
 	void Start () {
 
-        manager = Unity.Entities.World.Active.GetOrCreateManager<Unity.Entities.EntityManager>();
+        manager = World.Active.GetOrCreateManager<EntityManager>();
         AddCube(amount);
 	}
 
@@ -27,15 +30,41 @@ public class GameManager : MonoBehaviour {
 
     void AddCube(int amount)
     {
-        Unity.Collections.NativeArray<Unity.Entities.Entity> entities = new Unity.Collections.NativeArray<Unity.Entities.Entity>(amount, Unity.Collections.Allocator.Temp);
+        float posx;
+        float posz;
+        Position vectorpos;
+        int NCDistance = 5;//nucleus-star distance
+        NativeArray<Entity> entities = new NativeArray<Entity>(amount, Allocator.Temp);
         manager.Instantiate(GameObjectEntity, entities);
         for (int i = 0; i < amount; i++)
         {
-            manager.SetComponentData(entities[i], new Unity.Transforms.Position { Value = new Unity.Mathematics.float3(Random.Range(1, 400),0, Random.Range(1, 400)  ) });
-
-            manager.SetComponentData(entities[i], new Speed { Value = 10f  });
+            manager.SetComponentData(entities[i], new Position { Value = new float3(UnityEngine.Random.Range(1, 10), 0, UnityEngine.Random.Range(1, 10)) });
+            vectorpos = manager.GetComponentData<Position>(entities[i]);
+            posx = vectorpos.Value.x;
+            posz = vectorpos.Value.z;
+            AddAnotherCube(starAmount, i, entities[i], NCDistance,posx,posz);
+            manager.SetComponentData(entities[i], new Speed { Value = 10f});
+            
+            
 
         }
+        entities.Dispose();
+    }
+
+    void AddAnotherCube(int starAmount,int i,Entity entity, int NCDistance,float posx,float posz)
+    {
+        NativeArray<Entity> entities = new NativeArray<Entity>(starAmount, Allocator.Temp);
+        //manager.Instantiate(GameObjectEntity, entities,GameObjectEntity2);
+        manager.Instantiate(entity, entities);
+        //for (int i = 0; i < amount; i++)
+
+
+        //{
+        manager.SetComponentData(entities[i], new Position {Value = new float3(posx + NCDistance + 5, 0, posz+NCDistance + 5)});
+        
+        manager.SetComponentData(entities[i], new Speed { Value = 10f });
+
+        //}
         entities.Dispose();
     }
 
