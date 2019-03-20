@@ -7,14 +7,19 @@ using UnityEngine;
 
 public class MovementComponentSystem : JobComponentSystem
 {
-    struct MovementJob : IJobProcessComponentData<Position, Rotation, Speed>
+    struct MovementJob : IJobProcessComponentData<Position, Unity.Transforms.Rotation, Speed>
     {
 
         public float DeltaTime;
         //public float SValue;
         public void Execute(ref Position pos, ref Rotation rot, ref Speed speed)
         {
-            
+
+            //UnityEngine.Color mat = renderer.material.color;
+
+
+
+
             float3 PositionValue = pos.Value;
             float SValue = speed.Value;
             
@@ -31,6 +36,7 @@ public class MovementComponentSystem : JobComponentSystem
             RotationValue = new float4(rotation.x, rotation.y, rotation.z, rotation.w);
 
             rot.Value.value = RotationValue;
+
 
             
             speed.Value = SValue;

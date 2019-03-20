@@ -5,11 +5,14 @@ using UnityEngine;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Collections;
+using Unity.Rendering;
 
 public class GameManager : MonoBehaviour {
 
     EntityManager manager;
     public GameObject GameObjectEntity;
+    public Material cubematerial;
+    public Mesh cubemesh;
     public int nucleusAmount;
     public int starAmount;
     public static float3 RotateAroundPoint(float3 position, float3 pivot, float3 axis, float delta) => math.mul(quaternion.AxisAngle(axis, delta), position - pivot) + pivot;
@@ -27,6 +30,10 @@ public class GameManager : MonoBehaviour {
         {
             AddCube(nucleusAmount, starAmount);
         }
+
+       
+
+
     }
 
     void AddCube(int nucleusAmount, int starAmount)
@@ -55,24 +62,46 @@ public class GameManager : MonoBehaviour {
     {
         NativeArray<Entity> starEntities = new NativeArray<Entity>(starAmount, Allocator.Temp);
         manager.Instantiate(GameObjectEntity, starEntities);
+        
+
+        
+
         //inserire ogni gameobject instanziato su una lista (NativeList<Entity>(quantita' stelle)),instaziare stelle e poi distruggere native array in modo di avere una lista contente ogni entita' stella disponibile per modifica
         for (int j = 0; j < starAmount; j++)
         {
-            
+
             //GameObjectEntity.transform.RotateAround(originPos, Vector3.up, 10f * Time.deltaTime);
             //manager.SetComponentData(starEntities[j], new Transform { Value = new Vector3(1,1,1) });
             //var gesu = manager.GetComponentData<Transform>(nucleusEntities[i]);
-
-
+            
             manager.SetComponentData(starEntities[j], new Position { Value = new float3(originPos.x + NCDistance, 0, originPos.z + NCDistance) });
             manager.SetComponentData(starEntities[j], new Speed { Value = UnityEngine.Random.Range(1f, 20f) });
             NCDistance += 5;
-            Position anus = manager.GetComponentData<Position>(starEntities[j]);
+            //Position anus = manager.GetComponentData<Position>(starEntities[j]);
+
+            //RotateAroundPoint(anus.Value,originPos,Vector3.up,Time.deltaTime*200);
             
-            RotateAroundPoint(anus.Value,originPos,Vector3.up,Time.deltaTime*200);
         }
         starEntities.Dispose();
+        ChangeColor();
+
     }
-    
+
+
+    void ChangeColor()
+    {
+        NativeArray<Entity> AllOfThem = manager.GetAllEntities(Allocator.Temp);
+
+        for (int i = 0; i < AllOfThem.Length; i++)
+        {
+        MeshInstanceRenderer newrend = manager.GetSharedComponentData<MeshInstanceRenderer>(AllOfThem[i]);
+        newrend.material.color = cubematerial.color;
+        cubematerial.color = UnityEngine.Random.ColorHSV();
+        manager.SetSharedComponentData(AllOfThem[i], newrend);
+        }
+
+
+        AllOfThem.Dispose();
+    }
 
 }

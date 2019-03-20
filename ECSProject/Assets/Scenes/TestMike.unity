@@ -250,7 +250,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 731100685}
   m_LocalRotation: {x: 0.6830127, y: -0.18301266, z: 0.18301266, w: 0.6830127}
-  m_LocalPosition: {x: 75, y: 144, z: 87}
+  m_LocalPosition: {x: 75, y: 133.87, z: 87}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -285,6 +285,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameObjectEntity: {fileID: 1154402441456594, guid: 43ecf0d8e32d5b442adaeb808d8e8878,
     type: 2}
+  cubematerial: {fileID: 2100000, guid: f6050145a9cab6f4d929915669928146, type: 2}
+  cubemesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
   nucleusAmount: 1
   starAmount: 10
 --- !u!4 &1808299424
