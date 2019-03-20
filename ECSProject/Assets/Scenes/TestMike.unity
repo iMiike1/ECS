@@ -249,13 +249,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 731100685}
-  m_LocalRotation: {x: -0, y: -0.70710677, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: -0, y: -0.25881907, z: -0, w: 0.9659259}
   m_LocalPosition: {x: 35, y: 1, z: 15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -90.00001, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -30.000002, z: 0}
 --- !u!1 &1808299422
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,8 +285,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameObjectEntity: {fileID: 1154402441456594, guid: 43ecf0d8e32d5b442adaeb808d8e8878,
     type: 2}
-  amount: 1
-  starAmount: 1
+  nucleusAmount: 1
+  starAmount: 10
 --- !u!4 &1808299424
 Transform:
   m_ObjectHideFlags: 0
