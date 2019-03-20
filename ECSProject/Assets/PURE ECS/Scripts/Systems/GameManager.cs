@@ -12,10 +12,10 @@ public class GameManager : MonoBehaviour {
     public GameObject GameObjectEntity;
     public int nucleusAmount;
     public int starAmount;
-    public static float3 RotateAroundPoint(float3 position, float3 pivot, float3 axis, float delta) => math.mul(quaternion.AxisAngle(axis, delta), position - pivot) + pivot;
+    
     // Use this for initialization
-    void Start () {
-
+    void Start ()
+    {
         manager = World.Active.GetOrCreateManager<EntityManager>();
         AddCube(nucleusAmount, starAmount);
 	}
@@ -30,8 +30,7 @@ public class GameManager : MonoBehaviour {
     }
 
     void AddCube(int nucleusAmount, int starAmount)
-    {
-        
+    {       
         Position vectorpos;
         int NCDistance = 5;//nucleus-star distance
         NativeArray<Entity> nucleusEntities = new NativeArray<Entity>(nucleusAmount, Allocator.Temp);
@@ -43,10 +42,9 @@ public class GameManager : MonoBehaviour {
             float posx = vectorpos.Value.x;
             float posy = vectorpos.Value.y;
             float posz = vectorpos.Value.z;
-            Vector3 originPos = new Vector3(posx, posy, posz);
-            manager.SetComponentData(nucleusEntities[i], new Speed { Value = 10f});    
-           AddAnotherCube(NCDistance, originPos);
-            
+            Vector3 originPos = new Vector3(posx, posy, posz);              
+            AddAnotherCube(NCDistance, originPos);
+            manager.SetComponentData(nucleusEntities[i], new Speed { Value = 10f });
         }
         nucleusEntities.Dispose();
     }
@@ -58,18 +56,11 @@ public class GameManager : MonoBehaviour {
         //inserire ogni gameobject instanziato su una lista (NativeList<Entity>(quantita' stelle)),instaziare stelle e poi distruggere native array in modo di avere una lista contente ogni entita' stella disponibile per modifica
         for (int j = 0; j < starAmount; j++)
         {
+            manager.SetComponentData(starEntities[j], new Position { Value = new float3(originPos.x + NCDistance, 0, originPos.z + NCDistance)});
+            Position entityPos = manager.GetComponentData<Position>(starEntities[j]);
             
-            //GameObjectEntity.transform.RotateAround(originPos, Vector3.up, 10f * Time.deltaTime);
-            //manager.SetComponentData(starEntities[j], new Transform { Value = new Vector3(1,1,1) });
-            //var gesu = manager.GetComponentData<Transform>(nucleusEntities[i]);
-
-
-            manager.SetComponentData(starEntities[j], new Position { Value = new float3(originPos.x + NCDistance, 0, originPos.z + NCDistance) });
-            manager.SetComponentData(starEntities[j], new Speed { Value = UnityEngine.Random.Range(1f, 20f) });
-            NCDistance += 5;
-            Position anus = manager.GetComponentData<Position>(starEntities[j]);
-            
-            RotateAroundPoint(anus.Value,originPos,Vector3.up,Time.deltaTime*200);
+            manager.SetComponentData(starEntities[j], new Speed { Value = UnityEngine.Random.Range(1f, 20f)});
+            NCDistance += 5;           
         }
         starEntities.Dispose();
     }
