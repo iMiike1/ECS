@@ -4,10 +4,11 @@ using Unity.Mathematics;
 using System;
 using Unity.Transforms;
 using UnityEngine;
+using Unity.Rendering;
 
 public class MovementComponentSystem : JobComponentSystem
 {
-    struct MovementJob : IJobProcessComponentData<Position, Unity.Transforms.Rotation, Speed>
+    struct MovementJob : IJobProcessComponentData<Position, Rotation, Speed >
     {
 
         public float DeltaTime;
