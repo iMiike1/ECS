@@ -10,49 +10,53 @@ using Unity.Rendering;
 public class GameManager : MonoBehaviour {
 
     private static EntityManager manager;
-    public GameObject GameObjectEntity;
-    public Material cubematerial;
-    public Mesh cubemesh;
+    public GameObject RedStar;
+    public GameObject WhiteStar;
+    public GameObject OrangeStar;
+
+    public Material RedMat;
+    public Material WhiteMat;
+    public Material OrangeMat;
+
+    public Mesh sphere;
     public int nucleusAmount;
-    public int starAmount;
 
+    public int RedStarAmount;
+    public int WhiteStarAmount;
+    public int OrangeStarAmount;
+    public int OrangeStarAmountLarge;
 
-   
-
-
-
-
-
-
-
+    public float3 OPos;
 
     // Use this for initialization
-    void Start () {
+    void Start() {
 
         manager = World.Active.GetOrCreateManager<EntityManager>();
-
-       
-        AddCube(nucleusAmount, starAmount);
-	}
+        AddCube(nucleusAmount, RedStarAmount);
+    }
 
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            AddCube(nucleusAmount, starAmount);
-            
+            //AddCube(nucleusAmount, RedStarAmount);
+            addRedStars(OPos);
+            addWhiteStars(OPos);
+            addOrangeStars(OPos);
+            addOrangeStarsLarge(OPos);
         }
         
     }
 
     void AddCube(int nucleusAmount, int starAmount)
     {
-        
+
         Position vectorpos;
-        int NCDistance = 5;//nucleus-star distance
+        
         NativeArray<Entity> nucleusEntities = new NativeArray<Entity>(nucleusAmount, Allocator.Temp);
-        manager.Instantiate(GameObjectEntity, nucleusEntities);
+        manager.Instantiate(RedStar, nucleusEntities);
+
         for (int i = 0; i < nucleusAmount; i++)
         {
             manager.SetComponentData(nucleusEntities[i], new Position { Value = new float3(UnityEngine.Random.Range(1, 100), 0, UnityEngine.Random.Range(1, 100)) });
@@ -61,55 +65,117 @@ public class GameManager : MonoBehaviour {
             float posy = vectorpos.Value.y;
             float posz = vectorpos.Value.z;
             Vector3 originPos = new Vector3(posx, posy, posz);
-            manager.SetComponentData(nucleusEntities[i], new Speed { Value = 10f});    
-           AddAnotherCube(NCDistance, originPos);
-
-            
+            OPos = originPos;
+            manager.SetComponentData(nucleusEntities[i], new Speed { Value = 10f });
+            addRedStars( originPos);
+            addWhiteStars( originPos);
+            addOrangeStars(originPos);
+            addOrangeStarsLarge(originPos);
         }
         nucleusEntities.Dispose();
     }
-
-    void AddAnotherCube(int NCDistance, Vector3 originPos)
+    
+    void addRedStars(Vector3 originPos)
     {
-        NativeArray<Entity> starEntities = new NativeArray<Entity>(starAmount, Allocator.Temp);
-        manager.Instantiate(GameObjectEntity, starEntities);
+
+        NativeArray<Entity> starEntities = new NativeArray<Entity>(RedStarAmount, Allocator.Temp);
+        manager.Instantiate(RedStar, starEntities);
         
         //inserire ogni gameobject instanziato su una lista (NativeList<Entity>(quantita' stelle)),instaziare stelle e poi distruggere native array in modo di avere una lista contente ogni entita' stella disponibile per modifica
-        for (int j = 0; j < starAmount; j++)
+        for (int j = 0; j < RedStarAmount; j++)
         {
-            
-            
-            manager.SetComponentData(starEntities[j], new Position { Value = new float3(UnityEngine.Random.Range(originPos.x-2000,3000.0f), 0, UnityEngine.Random.Range(originPos.z-2000,3000)) });
-           // manager.SetComponentData(starEntities[j], new Material {cubematerial } );
-            manager.SetComponentData(starEntities[j], new Speed { Value = UnityEngine.Random.Range(1f, 20f) });
-            NCDistance += 5;
-            //Position anus = manager.GetComponentData<Position>(starEntities[j]);
+            /////////////////////////////////////WO/RKING RANDOM COLOR JUST UNCOMENNT LINES BELOW/////////////////////////////////////////////
+           
 
-            //RotateAroundPoint(anus.Value,originPos,Vector3.up,Time.deltaTime*200);
+            //Material starMat = new Material(Shader.Find("Diffuse"));
+            //starMat.color = new UnityEngine.Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
+            //manager.SetSharedComponentData(starEntities[j], new MeshInstanceRenderer { mesh = sphere, material = starMat });
+
+            manager.SetComponentData(starEntities[j], new Position { Value = new float3(UnityEngine.Random.Range(originPos.x-2000,3000.0f), UnityEngine.Random.Range(originPos.y - 100, 100), UnityEngine.Random.Range(originPos.z-2000,3000)) });
+            manager.SetComponentData(starEntities[j], new Speed { Value = UnityEngine.Random.Range(1f, 20f) });
+            manager.SetComponentData(starEntities[j], new Speed { RValue = UnityEngine.Random.Range(-1f, 1f) });
             
+                        
         }
         starEntities.Dispose();
-        ChangeColor();
+        
      }
 
-
-    void ChangeColor()
+    void addWhiteStars( Vector3 originPos)
     {
-        NativeArray<Entity> AllOfThem = manager.GetAllEntities(Allocator.Temp);
-        for (int i = 0; i < AllOfThem.Length; i++)
+
+        NativeArray<Entity> WhiteStarEntities = new NativeArray<Entity>(WhiteStarAmount, Allocator.Temp);
+        manager.Instantiate(WhiteStar, WhiteStarEntities);
+
+        //inserire ogni gameobject instanziato su una lista (NativeList<Entity>(quantita' stelle)),instaziare stelle e poi distruggere native array in modo di avere una lista contente ogni entita' stella disponibile per modifica
+        for (int j = 0; j < WhiteStarAmount; j++)
         {
-        MeshInstanceRenderer newrend = manager.GetSharedComponentData<MeshInstanceRenderer>(AllOfThem[i]);
-        newrend.material.color = cubematerial.color;
-        
-        cubematerial.color = UnityEngine.Random.ColorHSV();
-        manager.SetSharedComponentData(AllOfThem[i], newrend);
+            /////////////////////////////////////WO/RKING RANDOM COLOR JUST UNCOMENNT LINES BELOW/////////////////////////////////////////////
+
+
+            //Material starMat = new Material(Shader.Find("Diffuse"));
+            //starMat.color = new UnityEngine.Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
+            //manager.SetSharedComponentData(starEntities[j], new MeshInstanceRenderer { mesh = sphere, material = starMat });
+
+            manager.SetComponentData(WhiteStarEntities[j], new Position { Value = new float3(UnityEngine.Random.Range(originPos.x - 2000, 3000.0f), UnityEngine.Random.Range(originPos.y - 100, 100), UnityEngine.Random.Range(originPos.z - 2000, 3000)) });
+            manager.SetComponentData(WhiteStarEntities[j], new Speed { Value = UnityEngine.Random.Range(1f, 20f) });
+            manager.SetComponentData(WhiteStarEntities[j], new Speed { RValue = UnityEngine.Random.Range(-1f, 1f) });
+           
+
         }
+        WhiteStarEntities.Dispose();
 
-
-        AllOfThem.Dispose();
     }
 
+    void addOrangeStars(Vector3 originPos)
+    {
 
-  
+        NativeArray<Entity> OrangeStarEntities = new NativeArray<Entity>(OrangeStarAmount, Allocator.Temp);
+        manager.Instantiate(OrangeStar, OrangeStarEntities);
+
+        //inserire ogni gameobject instanziato su una lista (NativeList<Entity>(quantita' stelle)),instaziare stelle e poi distruggere native array in modo di avere una lista contente ogni entita' stella disponibile per modifica
+        for (int j = 0; j < OrangeStarAmount; j++)
+        {
+            /////////////////////////////////////WO/RKING RANDOM COLOR JUST UNCOMENNT LINES BELOW/////////////////////////////////////////////
+
+
+            //Material starMat = new Material(Shader.Find("Diffuse"));
+            //starMat.color = new UnityEngine.Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
+            //manager.SetSharedComponentData(starEntities[j], new MeshInstanceRenderer { mesh = sphere, material = starMat });
+
+            manager.SetComponentData(OrangeStarEntities[j], new Position { Value = new float3(UnityEngine.Random.Range(originPos.x - 500, 500.0f), UnityEngine.Random.Range(originPos.y - 200, 200), UnityEngine.Random.Range(originPos.z - 500, 500)) });
+            manager.SetComponentData(OrangeStarEntities[j], new Speed { Value = UnityEngine.Random.Range(1f, 20f) });
+            manager.SetComponentData(OrangeStarEntities[j], new Speed { RValue = UnityEngine.Random.Range(-1f, 1f) });
+
+
+        }
+        OrangeStarEntities.Dispose();
+
+    }
+    void addOrangeStarsLarge(Vector3 originPos)
+    {
+
+        NativeArray<Entity> OrangeStarEntitieslarge = new NativeArray<Entity>(OrangeStarAmount, Allocator.Temp);
+        manager.Instantiate(OrangeStar, OrangeStarEntitieslarge);
+
+        //inserire ogni gameobject instanziato su una lista (NativeList<Entity>(quantita' stelle)),instaziare stelle e poi distruggere native array in modo di avere una lista contente ogni entita' stella disponibile per modifica
+        for (int j = 0; j < OrangeStarAmountLarge; j++)
+        {
+            /////////////////////////////////////WO/RKING RANDOM COLOR JUST UNCOMENNT LINES BELOW/////////////////////////////////////////////
+
+
+            //Material starMat = new Material(Shader.Find("Diffuse"));
+            //starMat.color = new UnityEngine.Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
+            //manager.SetSharedComponentData(starEntities[j], new MeshInstanceRenderer { mesh = sphere, material = starMat });
+
+            manager.SetComponentData(OrangeStarEntitieslarge[j], new Position { Value = new float3(UnityEngine.Random.Range(originPos.x - 2000, 2000.0f), UnityEngine.Random.Range(originPos.y - 100, 100), UnityEngine.Random.Range(originPos.z - 2000, 2000)) });
+            manager.SetComponentData(OrangeStarEntitieslarge[j], new Speed { Value = UnityEngine.Random.Range(1f, 20f) });
+            manager.SetComponentData(OrangeStarEntitieslarge[j], new Speed { RValue = UnityEngine.Random.Range(-1f, 1f) });
+
+
+        }
+        OrangeStarEntitieslarge.Dispose();
+
+    }
 
 }

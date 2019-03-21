@@ -5,6 +5,8 @@ using Unity.Collections;
 public struct Speed : Unity.Entities.IComponentData {
 
     public float Value;
+    public float RValue;
+    
 
 }
 

@@ -8,25 +8,20 @@ using Unity.Rendering;
 
 public class MovementComponentSystem : JobComponentSystem
 {
+    public static float n;
     public static float3 RotateAroundPoint(float3 position, float3 pivot, float3 axis, float delta) => math.mul(quaternion.AxisAngle(axis, delta), position - pivot) + pivot;
-
+    
     struct MovementJob : IJobProcessComponentData<Position, Rotation, Speed >
     {
         
 
         public float DeltaTime;
-
+        public float diocan;
         
 
         //public float SValue;
         public void Execute(ref Position pos, ref Rotation rot, ref Speed speed)
         {
-
-            //UnityEngine.Color mat = renderer.material.color;
-
-
-            
-
             float3 PositionValue = pos.Value;
             float SValue = speed.Value;
             
@@ -45,17 +40,10 @@ public class MovementComponentSystem : JobComponentSystem
             rot.Value.value = RotationValue;
             
 
-            PositionValue = RotateAroundPoint(PositionValue, new float3(0, 0, 0), new float3(0,1,0), 2 * DeltaTime);
+            PositionValue = RotateAroundPoint(PositionValue, new float3(0, 0, 0), new float3(0,1,0), speed.RValue * DeltaTime);
 
-
-            
             pos.Value = PositionValue;
-
-
-
-
-
-
+            
             speed.Value = SValue;
         }
         
@@ -69,7 +57,7 @@ public class MovementComponentSystem : JobComponentSystem
     {
         MovementJob MJob = new MovementJob
         {
-            DeltaTime = Time.deltaTime,    
+            DeltaTime = Time.deltaTime,
             
         };
        
