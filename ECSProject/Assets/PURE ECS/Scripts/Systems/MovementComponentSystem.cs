@@ -5,13 +5,16 @@ using System;
 using Unity.Transforms;
 using UnityEngine;
 using Unity.Rendering;
+using Unity.Burst;
 
 public class MovementComponentSystem : JobComponentSystem
 {
     public static float n;
     public static float3 RotateAroundPoint(float3 position, float3 pivot, float3 axis, float delta) => math.mul(quaternion.AxisAngle(axis, delta), position - pivot) + pivot;
-    
-    struct MovementJob : IJobProcessComponentData<Position, Rotation, Speed >
+
+
+    [BurstCompile(CompileSynchronously = true)]
+    struct MovementJob : IJobProcessComponentData<Position, Rotation, Speed>
     {
         
 

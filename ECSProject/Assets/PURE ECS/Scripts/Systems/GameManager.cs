@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.Transforms;
+﻿using Unity.Transforms;
 using UnityEngine;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Collections;
-using Unity.Rendering;
+
 
 public class GameManager : MonoBehaviour {
 
@@ -35,6 +33,12 @@ public class GameManager : MonoBehaviour {
         AddCube(nucleusAmount, RedStarAmount);
     }
 
+
+    private void OnApplicationQuit()
+    {
+        Unity.Entities.World.Active.Dispose();
+
+    }
 
     private void Update()
     {
@@ -93,7 +97,7 @@ public class GameManager : MonoBehaviour {
 
             manager.SetComponentData(starEntities[j], new Position { Value = new float3(UnityEngine.Random.Range(originPos.x-2000,3000.0f), UnityEngine.Random.Range(originPos.y - 100, 100), UnityEngine.Random.Range(originPos.z-2000,3000)) });
             manager.SetComponentData(starEntities[j], new Speed { Value = UnityEngine.Random.Range(1f, 20f) });
-            manager.SetComponentData(starEntities[j], new Speed { RValue = UnityEngine.Random.Range(-1f, 1f) });
+            manager.SetComponentData(starEntities[j], new Speed { RValue = UnityEngine.Random.Range(-.2f, .5f) });
             
                         
         }
@@ -119,7 +123,7 @@ public class GameManager : MonoBehaviour {
 
             manager.SetComponentData(WhiteStarEntities[j], new Position { Value = new float3(UnityEngine.Random.Range(originPos.x - 2000, 3000.0f), UnityEngine.Random.Range(originPos.y - 100, 100), UnityEngine.Random.Range(originPos.z - 2000, 3000)) });
             manager.SetComponentData(WhiteStarEntities[j], new Speed { Value = UnityEngine.Random.Range(1f, 20f) });
-            manager.SetComponentData(WhiteStarEntities[j], new Speed { RValue = UnityEngine.Random.Range(-1f, 1f) });
+            manager.SetComponentData(WhiteStarEntities[j], new Speed { RValue = UnityEngine.Random.Range(-.2f, .5f) });
            
 
         }
@@ -145,7 +149,7 @@ public class GameManager : MonoBehaviour {
 
             manager.SetComponentData(OrangeStarEntities[j], new Position { Value = new float3(UnityEngine.Random.Range(originPos.x - 500, 500.0f), UnityEngine.Random.Range(originPos.y - 200, 200), UnityEngine.Random.Range(originPos.z - 500, 500)) });
             manager.SetComponentData(OrangeStarEntities[j], new Speed { Value = UnityEngine.Random.Range(1f, 20f) });
-            manager.SetComponentData(OrangeStarEntities[j], new Speed { RValue = UnityEngine.Random.Range(-1f, 1f) });
+            manager.SetComponentData(OrangeStarEntities[j], new Speed { RValue = UnityEngine.Random.Range(-.2f, .5f) });
 
 
         }
@@ -155,22 +159,20 @@ public class GameManager : MonoBehaviour {
     void addOrangeStarsLarge(Vector3 originPos)
     {
 
-        NativeArray<Entity> OrangeStarEntitieslarge = new NativeArray<Entity>(OrangeStarAmount, Allocator.Temp);
+        NativeArray<Entity> OrangeStarEntitieslarge = new NativeArray<Entity>(OrangeStarAmountLarge, Allocator.Temp);
         manager.Instantiate(OrangeStar, OrangeStarEntitieslarge);
 
         //inserire ogni gameobject instanziato su una lista (NativeList<Entity>(quantita' stelle)),instaziare stelle e poi distruggere native array in modo di avere una lista contente ogni entita' stella disponibile per modifica
         for (int j = 0; j < OrangeStarAmountLarge; j++)
         {
             /////////////////////////////////////WO/RKING RANDOM COLOR JUST UNCOMENNT LINES BELOW/////////////////////////////////////////////
-
-
             //Material starMat = new Material(Shader.Find("Diffuse"));
             //starMat.color = new UnityEngine.Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f));
             //manager.SetSharedComponentData(starEntities[j], new MeshInstanceRenderer { mesh = sphere, material = starMat });
 
-            manager.SetComponentData(OrangeStarEntitieslarge[j], new Position { Value = new float3(UnityEngine.Random.Range(originPos.x - 2000, 2000.0f), UnityEngine.Random.Range(originPos.y - 100, 100), UnityEngine.Random.Range(originPos.z - 2000, 2000)) });
+            manager.SetComponentData(OrangeStarEntitieslarge[j], new Position { Value = new float3(UnityEngine.Random.Range(originPos.x - 2000.0f, 2000.0f), UnityEngine.Random.Range(originPos.y - 100.0f, 100.0f), UnityEngine.Random.Range(originPos.z - 2000.0f, 2000.0f)) });
             manager.SetComponentData(OrangeStarEntitieslarge[j], new Speed { Value = UnityEngine.Random.Range(1f, 20f) });
-            manager.SetComponentData(OrangeStarEntitieslarge[j], new Speed { RValue = UnityEngine.Random.Range(-1f, 1f) });
+            manager.SetComponentData(OrangeStarEntitieslarge[j], new Speed { RValue = UnityEngine.Random.Range(-.2f, .5f) });
 
 
         }

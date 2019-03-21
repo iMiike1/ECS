@@ -355,8 +355,8 @@ MonoBehaviour:
   OrangeMat: {fileID: 2100000, guid: e79b4173ef1237543b5cd84e65700ade, type: 2}
   sphere: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   nucleusAmount: 1
-  RedStarAmount: 10000
-  WhiteStarAmount: 10000
+  RedStarAmount: 20000
+  WhiteStarAmount: 20000
   OrangeStarAmount: 20000
   OrangeStarAmountLarge: 30000
   OPos:
