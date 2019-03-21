@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114764116846958832}
   - component: {fileID: 114952543358874362}
   - component: {fileID: 114367743461173858}
+  - component: {fileID: 114428820294817752}
   m_Layer: 0
   m_Name: GameObjectEntity
   m_TagString: Untagged
@@ -96,6 +97,22 @@ MonoBehaviour:
     subMesh: 0
     castShadows: 0
     receiveShadows: 0
+--- !u!114 &114428820294817752
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1154402441456594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e0a2623e9323e74e83e9fdd58d9707c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedData:
+    Value:
+      x: 0
+      y: 0
+      z: 0
 --- !u!114 &114586919363087742
 MonoBehaviour:
   m_ObjectHideFlags: 1

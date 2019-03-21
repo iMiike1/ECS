@@ -16,16 +16,6 @@ public class GameManager : MonoBehaviour {
     public int nucleusAmount;
     public int starAmount;
 
-
-   
-
-
-
-
-
-
-
-
     // Use this for initialization
     void Start () {
 
@@ -42,8 +32,7 @@ public class GameManager : MonoBehaviour {
         {
             AddCube(nucleusAmount, starAmount);
             
-        }
-        
+        }        
     }
 
     void AddCube(int nucleusAmount, int starAmount)
@@ -63,8 +52,6 @@ public class GameManager : MonoBehaviour {
             Vector3 originPos = new Vector3(posx, posy, posz);
             manager.SetComponentData(nucleusEntities[i], new Speed { Value = 10f});    
            AddAnotherCube(NCDistance, originPos);
-
-            
         }
         nucleusEntities.Dispose();
     }
@@ -77,16 +64,10 @@ public class GameManager : MonoBehaviour {
         //inserire ogni gameobject instanziato su una lista (NativeList<Entity>(quantita' stelle)),instaziare stelle e poi distruggere native array in modo di avere una lista contente ogni entita' stella disponibile per modifica
         for (int j = 0; j < starAmount; j++)
         {
-            
-            
             manager.SetComponentData(starEntities[j], new Position { Value = new float3(UnityEngine.Random.Range(originPos.x-2000,3000.0f), 0, UnityEngine.Random.Range(originPos.z-2000,3000)) });
-           // manager.SetComponentData(starEntities[j], new Material {cubematerial } );
+            manager.SetComponentData(starEntities[j], new originPosition {Value = originPos });
             manager.SetComponentData(starEntities[j], new Speed { Value = UnityEngine.Random.Range(1f, 20f) });
             NCDistance += 5;
-            //Position anus = manager.GetComponentData<Position>(starEntities[j]);
-
-            //RotateAroundPoint(anus.Value,originPos,Vector3.up,Time.deltaTime*200);
-            
         }
         starEntities.Dispose();
         ChangeColor();
