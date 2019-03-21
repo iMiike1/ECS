@@ -15,11 +15,14 @@ public class GameManager : MonoBehaviour {
     public Mesh cubemesh;
     public int nucleusAmount;
     public int starAmount;
-    public static float3 RotateAroundPoint(float3 position, float3 pivot, float3 axis, float delta) => math.mul(quaternion.AxisAngle(axis, delta), position - pivot) + pivot;
 
-    
 
-    
+   
+
+
+
+
+
 
 
 
@@ -38,6 +41,7 @@ public class GameManager : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             AddCube(nucleusAmount, starAmount);
+            
         }
         
     }
@@ -59,6 +63,7 @@ public class GameManager : MonoBehaviour {
             Vector3 originPos = new Vector3(posx, posy, posz);
             manager.SetComponentData(nucleusEntities[i], new Speed { Value = 10f});    
            AddAnotherCube(NCDistance, originPos);
+
             
         }
         nucleusEntities.Dispose();
@@ -72,13 +77,9 @@ public class GameManager : MonoBehaviour {
         //inserire ogni gameobject instanziato su una lista (NativeList<Entity>(quantita' stelle)),instaziare stelle e poi distruggere native array in modo di avere una lista contente ogni entita' stella disponibile per modifica
         for (int j = 0; j < starAmount; j++)
         {
-
-            //GameObjectEntity.transform.RotateAround(originPos, Vector3.up, 10f * Time.deltaTime);
-            //manager.SetComponentData(starEntities[j], new Transform { Value = new Vector3(1,1,1) });
-            //var gesu = manager.GetComponentData<Transform>(nucleusEntities[i]);
             
-            //manager.SetComponentData(starEntities[j], new Position { Value = new float3(originPos.x + NCDistance, 0, originPos.z + NCDistance) });
-            manager.SetComponentData(starEntities[j], new Position { Value = new float3(UnityEngine.Random.Range(originPos.x-3000,3000.0f), 0, UnityEngine.Random.Range(originPos.z-3000,3000)) });
+            
+            manager.SetComponentData(starEntities[j], new Position { Value = new float3(UnityEngine.Random.Range(originPos.x-2000,3000.0f), 0, UnityEngine.Random.Range(originPos.z-2000,3000)) });
            // manager.SetComponentData(starEntities[j], new Material {cubematerial } );
             manager.SetComponentData(starEntities[j], new Speed { Value = UnityEngine.Random.Range(1f, 20f) });
             NCDistance += 5;
