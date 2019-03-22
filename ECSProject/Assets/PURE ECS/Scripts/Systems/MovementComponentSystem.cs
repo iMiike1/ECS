@@ -19,7 +19,7 @@ public class MovementComponentSystem : JobComponentSystem
         
 
         public float DeltaTime;
-        public float diocan;
+       
         
 
         //public float SValue;
@@ -43,7 +43,7 @@ public class MovementComponentSystem : JobComponentSystem
             rot.Value.value = RotationValue;
             
 
-            PositionValue = RotateAroundPoint(PositionValue, new float3(0, 0, 0), new float3(0,1,0), speed.RValue * DeltaTime);
+            PositionValue = RotateAroundPoint(PositionValue, new float3(0, 0, 0), new float3(0,1,0), speed.RValue/10 * DeltaTime);
 
             pos.Value = PositionValue;
             

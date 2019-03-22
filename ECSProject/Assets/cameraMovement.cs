@@ -21,6 +21,12 @@ public class cameraMovement : MonoBehaviour
     private Vector3 lastMouse = new Vector3(255, 255, 255); //kind of in the middle of the screen, rather than at the top (play)
     private float totalRun = 1.0f;
 
+    private void Start()
+    {
+        
+    }
+
+
     void Update()
     {
         lastMouse = Input.mousePosition - lastMouse;
@@ -33,6 +39,9 @@ public class cameraMovement : MonoBehaviour
         //Keyboard commands
         float f = 0.0f;
         Vector3 p = GetBaseInput();
+
+        
+
         if (Input.GetKey(KeyCode.LeftShift))
         {
             totalRun += Time.deltaTime;
@@ -49,6 +58,7 @@ public class cameraMovement : MonoBehaviour
 
         p = p * Time.deltaTime;
         Vector3 newPosition = transform.position;
+
         if (Input.GetKey(KeyCode.Space))
         { //If player wants to move on X and Z axis only
             transform.Translate(p);
